@@ -1,0 +1,192 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
+
+
+&lt {
+    tapping-term-ms = <200>;
+    flavor = "balanced";
+    quick-tap-ms = <150>;
+};
+
+/ {
+    behaviors {
+        f5f6f7: macro_f5f6f7 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp F5 &kp F6 &kp F7>;
+        };
+
+        vb_macro: macro_vb {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp V &kp B>;
+        };
+
+
+        cs_hold: cs_hold {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;            
+            wait-ms = <30>;
+            tap-ms  = <30>;            
+            bindings =
+                <&macro_press   &kp LCTRL>,
+                <&macro_wait_time 20>,
+                <&macro_press   &kp LSHIFT>,
+                <&macro_wait_time 30>,
+                <&macro_release &kp LCTRL>,
+                <&macro_wait_time 20>,
+                <&macro_release &kp LSHIFT>;
+        };
+
+
+        csf_macro: csf_macro {
+        compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            // Небольшие паузы помогают по RDP/BLE
+            wait-ms = <35>;
+            tap-ms  = <35>;
+            bindings =
+                <&macro_press   &kp LEFT_SHIFT>,
+                <&macro_press   &kp LALT>,
+                <&macro_tap     &kp F>,
+                <&macro_release &kp LALT>,
+                <&macro_release &kp LEFT_SHIFT>;
+        };
+
+    };
+
+    macros {
+
+        dbl_1: dbl_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms  = <40>;
+            bindings = <&kp N1 &kp N1>;  
+        };
+
+        dbl_2: dbl_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms  = <40>;
+            bindings = <&kp N2 &kp N2>; 
+        };
+
+        dbl_3: dbl_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms  = <40>;
+            bindings = <&kp N3 &kp N3>; 
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+                main {
+                    bindings = <
+        &kp ESC         &kp N1  &kp N2  &kp N3           &kp N4        &kp N5          &kp N6          &kp N7     &kp N8     &kp N9            &kp N0    &kp BACKSPACE
+        &kp TAB         &kp Q   &kp W   &kp E            &kp R         &kp T           &kp Y           &kp U      &kp I      &kp O             &kp P     &kp LEFT_BRACKET
+        &kp LALT        &kp A   &kp S   &kp D            &kp F         &kp G           &kp H           &kp J      &kp K      &kp L             &kp SEMI  &kp SQT
+        &kp LCTRL       &kp Z   &kp X   &kp C            &kp V         &kp B           &kp N           &kp M      &kp COMMA  &kp PERIOD        &kp FSLH  &kp MINUS
+                                        &mkp MB2         &mo 5         &kp LSFT        &kp ENTER       &kp SPACE
+                                                        &mkp MB1      &mo 1           &kp LSFT
+                    >;
+                };
+
+                hot_layer {
+                    bindings = <
+        &to 2           &to 3        &to 4           &kp LG(LS(S))  &bt BT_SEL 1       &bt BT_SEL 0     &kp F7        &kp F8              &kp F9      &kp F10            &kp F11     &kp F12
+        &kp CAPS        &csf_macro   &kp LC(S)       &kp LC(A)      &kp LC(S)          &bt BT_CLR       &none         &none               &kp UP      &none              &none       &kp RIGHT_BRACKET
+        &kp LEFT_SHIFT  &kp SPACE    &cs_hold        &kp LC(INS)    &kp LS(INS)        &kp F8           &none         &kp LEFT            &kp DOWN    &kp RIGHT          &none       &none
+        &kp LEFT_WIN    &none        &none           &none          &kp DELETE         &kp F5           &none         &kp RIGHT_BRACKET   &kp PERIOD  &none              &kp BSLH    &kp EQUAL
+                                                                    &none              &kp LG(L)        &mkp MB3      &kp LALT            &kp LS(BSLH)
+                                                                                       &none            &none         &kp ENTER
+                    >;
+                };
+
+                eve {
+                    bindings = <
+        &kp ESC         &kp F8             &kp LS(LA(R))    &kp F          &kp F17        &kp F16          &none     &none     &none     &none     &none  &to 0
+        &kp F10         &kp LALT           &kp LS(F1)       &kp LS(F2)     &kp LS(F3)     &kp LS(F4)       &none     &none     &none     &none     &none  &none
+        &kp LC(D)       &kp LCTRL          &kp F1           &kp F2         &kp F3         &kp F4           &none     &none     &none     &none     &none  &none
+        &kp P           &kp LEFT_SHIFT     &kp F24          &kp H          &kp J          &kp K            &none     &none     &none     &none     &none  &none
+                                                            &kp F14        &f5f6f7        &kp LA(F)        &none     &none
+                                                                        &kp LC(SPACE)  &kp V            &none
+                    >;
+                };
+
+                apex {
+                    bindings = <
+        &kp ESC         &kp G           &kp F1  &kp LALT      &kp N4     &kp N5          &kp N6     &kp N7     &kp N8     &kp N9            &kp N0    &to 0
+        &kp TAB         &kp TAB         &kp Q   &kp W         &kp E      &kp R           &kp Y      &kp U      &kp I      &kp O             &kp P     &kp LEFT_BRACKET
+        &kp N3          &kp LEFT_SHIFT  &kp A   &kp S         &kp D      &kp Z           &kp H      &kp J      &kp K      &kp L             &kp SEMI  &kp SQT
+        &kp F1          &kp LCTRL       &kp Z   &kp X         &kp C      &kp V           &kp N      &kp M      &kp COMMA  &kp PERIOD        &kp FSLH  &kp MINUS
+                                        &kp N2  &kp M         &kp B                      &kp LALT   &kp SPACE
+                                                &kp N1        &kp SPACE                  &kp ENTER
+                    >;
+                };
+
+                system {
+                    bindings = <
+        &none         &none          &none       &none         &none         &none           &none          &none     &none     &none     &none  &to 0
+        &none         &none          &none       &none         &none         &none           &none          &none     &none     &none     &none  &none
+        &none         &none          &none       &none         &none         &none           &none          &none     &none     &none     &none  &none
+        &none         &none          &none       &none         &none         &bootloader     &bootloader    &none     &none     &none     &none  &none
+                                                &none         &none         &none           &none          &none
+                                                            &none         &none           &none
+                    >;
+                };
+
+                slow_layer {
+                    bindings = <
+        &bt BT_SEL 0  &bt BT_SEL 1   &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_SEL 5    &none          &none     &none     &none     &none  &to 0
+        &to 6         &to 7          &to 8         &none         &mkp MB1      &bt BT_CLR      &none          &none     &none     &none     &none  &none
+        &none         &none          &none         &kp LSFT      &mkp MB1      &none           &none          &none     &none     &none     &none  &none
+        &none         &none          &none         &none         &none         &none           &none          &none     &none     &none     &none  &none
+                                                &none         &none         &none           &none          &none
+                                                                &mkp MB1      &none           &none
+                    >;
+                };
+
+                wows {
+                    bindings = <
+        &kp ESC         &kp G           &kp F1  &kp LALT      &kp N4     &kp N5          &kp N6     &kp N7     &kp N8     &kp N9            &kp N0    &to 0
+        &kp TAB         &kp TAB         &kp U   &kp W         &kp Y      &kp R           &kp Y      &kp U      &kp I      &kp O             &kp P     &kp LEFT_BRACKET
+        &kp X           &kp LEFT_SHIFT  &kp A   &kp S         &kp D      &kp T           &kp H      &kp J      &kp K      &kp L             &kp SEMI  &kp SQT
+        &kp F7          &kp LCTRL       &kp Q   &kp F         &kp E      &kp I           &kp N      &kp M      &kp COMMA  &kp PERIOD        &kp FSLH  &kp MINUS
+                                                &dbl_2        &kp M      &kp N4          &kp LALT   &kp SPACE
+                                                            &dbl_1     &kp N3          &kp ENTER
+                    >;
+                };
+
+                wows_submarine {
+                    bindings = <
+        &kp ESC         &kp G           &kp F1  &kp LALT      &kp N4     &kp N5          &kp N6     &kp N7     &kp N8     &kp N9            &kp N0    &to 0
+        &kp TAB         &kp TAB         &kp U   &kp W         &kp Y      &kp R           &kp Y      &kp U      &kp I      &kp O             &kp P     &kp LEFT_BRACKET
+        &kp X           &kp LEFT_SHIFT  &kp A   &kp S         &kp D      &kp T           &kp H      &kp J      &kp K      &kp L             &kp SEMI  &kp SQT
+        &kp F7          &kp LCTRL       &kp Q   &kp F         &kp E      &kp I           &kp N      &kp M      &kp COMMA  &kp PERIOD        &kp FSLH  &kp MINUS
+                                                &dbl_2        &kp M      &kp F          &kp LALT   &kp SPACE
+                                                            &dbl_1     &kp C          &kp ENTER
+                    >;
+                };
+                
+                wot {
+                    bindings = <
+        &kp ESC         &kp G           &kp F1  &kp N7        &kp N8     &kp N9          &kp N6     &kp N7     &kp N8     &kp N9            &kp N0    &to 0
+        &kp TAB         &kp TAB         &kp Q   &kp W         &kp N7     &kp R           &kp Y      &kp U      &kp I      &kp O             &kp P     &kp LEFT_BRACKET
+        &kp F7          &kp LEFT_SHIFT  &kp A   &kp S         &kp D      &kp T           &kp H      &kp J      &kp K      &kp L             &kp SEMI  &kp SQT
+        &kp F           &kp LCTRL       &kp Z   &kp X         &kp C      &kp N4          &kp N      &kp M      &kp COMMA  &kp PERIOD        &kp FSLH  &kp MINUS
+                                                &kp N1        &kp N2     &kp N3          &kp LALT   &kp SPACE
+                                                              &kp N5     &kp N6          &kp ENTER
+            >;
+        };
+
+
+    };
+};
